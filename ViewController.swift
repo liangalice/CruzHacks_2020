@@ -28,9 +28,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     private var nodeEnd: SCNNode!
     private var node : SCNNode!
     var firstPosition = false
-    var secondPosition = false
-    var thirdPosition = false
-    var fourthPosition = false
+
+    var holder = 0
     
     public var x  = Float(0)
     public var y  = Float(0)
@@ -52,6 +51,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     public var h2 = SCNVector3(0,0,0)
     public var h3 = SCNVector3(0,0,0)
     public var h4 = SCNVector3(0,0,0)
+    
+    public var d1 = Float(0)
+    public var d2 = Float(0)
     
     
     
@@ -105,7 +107,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addNode(x : Float = 0 , y: Float = 0, z: Float = 0.1){
-        let circle = SCNNode(geometry: SCNSphere(radius: 0.003))
+        let circle = SCNNode(geometry: SCNSphere(radius: 0.0001))
         self.node = circle
         sceneView.scene.rootNode.addChildNode(self.node)
     }
@@ -115,7 +117,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.addGestureRecognizer(tapGesture)
         
     }
-    
+    func getPos(from: SCNVector3 , to: SCNVector3) ->Float{
+        let x = from.x - to.x
+        let y = from.y - to.y
+        let z = from.z - to.z
+        return sqrtf((x*x)+(y*y)+(z*z))
+    }
     @objc func didTap(_ gesture: UIPanGestureRecognizer) {
         // 1
         let tapLocation = gesture.location(in: self.sceneView)
@@ -140,6 +147,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.scene.rootNode.addChildNode(self.node)
         self.sceneView.scene.rootNode.addChildNode(sphere)
         
+       
         
         if(firstPosition == false){
             x = self.node.worldPosition.x
@@ -147,33 +155,72 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             z = self.node.worldPosition.z
              h1 = self.node.worldPosition
             firstPosition = true
+            holder = 1
+            
+           // print(h1)
+            
         }
-        else if(firstPosition == true){
+        else if(holder == 1 ){
             x2 = self.node.worldPosition.x
             y2 = self.node.worldPosition.y
             z2 = self.node.worldPosition.z
              h2 = self.node.worldPosition
-            secondPosition = true
+//            let xHH = x-x2
+//            let yHH = y-y2
+//            let zHH = z-z2
+            holder = 2
+            //print(h1)
+            //print(h2)
+            d1 = 100*(getPos(from:h2,to:h1))
+        
+            
         }
-       else if(secondPosition == true){
+       else if(holder == 2){
             x3 = self.node.worldPosition.x
             y3 = self.node.worldPosition.y
             z3 = self.node.worldPosition.z
             h3 = self.node.worldPosition
-            thirdPosition = true
+            holder = 3
+         //   print(h3)
         }
-        //else if(thirdPosition == true){
-        else{
+        else if(holder == 3){
+        
             x4 = self.node.worldPosition.x
             y4 = self.node.worldPosition.y
             z4 = self.node.worldPosition.z
             h4 = self.node.worldPosition
            // fourthPosition = true
-            print(h1,h2,h3,h4)
+          //  print(h4)
+            d2 = 100*getPos(from:h4,to:h3)
+         //   print(getVolume(d1get:d1,d2get:d2))
         }
             
       
         //print(self.node.worldPosition.y)
     }
     
+    func getVolume(d1get : Float,d2get : Float) -> Float{
+    // d1 is horizontal
+        print("diameter is below")
+        print(d1)
+        let radius = d1/2
+        print("radius is below" )
+        print(radius)
+        print("height is below")
+        print(d2)
+        let volume = ((Float.pi*(radius*radius)*d2))
+        print("volume is")
+        print(volume)
+        
+        return volume
+        //return volume
+    }
+    
+    @IBAction func buttonaction(_ sender: UIButton){
+        let a = getVolume(d1get : d1, d2get : d2 )
+
+        if sender.title(for: .normal) == "HOW MUCH DID I DRINK TODAY?!"{
+            sender.setTitle("\(a)", for: .normal)
+        }
+    }
 }
