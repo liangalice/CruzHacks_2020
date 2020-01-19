@@ -192,7 +192,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
            // fourthPosition = true
           //  print(h4)
             d2 = getPos(from:h4,to:h3)
-            print(getVolume(d1get:d1,d2get:d2))
+         //   print(getVolume(d1get:d1,d2get:d2))
         }
             
       
@@ -201,11 +201,26 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     func getVolume(d1get : Float,d2get : Float) -> Float{
     // d1 is horizontal
-        let radius = d2/2
+        print("diameter is below")
+        print(d1)
+        let radius = d1/2
+        print("radius is below" )
+        print(radius)
+        print("height is below")
+        print(d2)
         let volume = ((Float.pi*(radius*radius)*d2))
+        print("volume is")
         print(volume)
+        
         return volume
         //return volume
     }
     
+    @IBAction func buttonaction(_ sender: UIButton){
+        let a = getVolume(d1get : d1, d2get : d2 )
+
+        if sender.title(for: .normal) == "HOW MUCH DID I DRINK TODAY?!"{
+            sender.setTitle("\(a)", for: .normal)
+        }
+    }
 }
