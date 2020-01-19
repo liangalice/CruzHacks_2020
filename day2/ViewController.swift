@@ -107,7 +107,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addNode(x : Float = 0 , y: Float = 0, z: Float = 0.1){
-        let circle = SCNNode(geometry: SCNSphere(radius: 0.003))
+        let circle = SCNNode(geometry: SCNSphere(radius: 0.0001))
         self.node = circle
         sceneView.scene.rootNode.addChildNode(self.node)
     }
@@ -171,8 +171,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             holder = 2
             //print(h1)
             //print(h2)
-            d1 = (getPos(from:h2,to:h1))
-            d1 *= 100
+            d1 = 100*(getPos(from:h2,to:h1))
+        
             
         }
        else if(holder == 2){
@@ -191,8 +191,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             h4 = self.node.worldPosition
            // fourthPosition = true
           //  print(h4)
-            d2 = getPos(from:h4,to:h3)
-            d2 *= 100
+            d2 = 100*getPos(from:h4,to:h3)
          //   print(getVolume(d1get:d1,d2get:d2))
         }
             
