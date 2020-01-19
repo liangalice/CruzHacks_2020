@@ -172,7 +172,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             //print(h1)
             //print(h2)
             d1 = (getPos(from:h2,to:h1))
-        
+            d1 *= 100
             
         }
        else if(holder == 2){
@@ -192,6 +192,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
            // fourthPosition = true
           //  print(h4)
             d2 = getPos(from:h4,to:h3)
+            d2 *= 100
          //   print(getVolume(d1get:d1,d2get:d2))
         }
             
