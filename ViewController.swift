@@ -55,6 +55,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     public var d1 = Float(0)
     public var d2 = Float(0)
     
+    public var volume = Float(0)
+    
     
     
     
@@ -68,6 +70,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.showsStatistics = true
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         self.addTapGesture();
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,7 +110,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addNode(x : Float = 0 , y: Float = 0, z: Float = 0.1){
-        let circle = SCNNode(geometry: SCNSphere(radius: 0.0001))
+        let circle = SCNNode(geometry: SCNSphere(radius: 0.0003))
         self.node = circle
         sceneView.scene.rootNode.addChildNode(self.node)
     }
@@ -201,26 +204,42 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     func getVolume(d1get : Float,d2get : Float) -> Float{
     // d1 is horizontal
-        print("diameter is below")
-        print(d1)
+       // print("diameter is below")
+      //  print(d1)
         let radius = d1/2
-        print("radius is below" )
-        print(radius)
-        print("height is below")
-        print(d2)
-        let volume = ((Float.pi*(radius*radius)*d2))
-        print("volume is")
-        print(volume)
+      //  print("radius is below" )
+      //  print(radius)
+      //  print("height is below")
+      //  print(d2)
+         volume = ((Float.pi*(radius*radius)*d2))
+     //   print("volume is")
+     //   print(volume)
         
         return volume
         //return volume
     }
     
+
+    
     @IBAction func buttonaction(_ sender: UIButton){
         let a = getVolume(d1get : d1, d2get : d2 )
 
-        if sender.title(for: .normal) == "HOW MUCH DID I DRINK TODAY?!"{
+        if sender.title(for: .normal) == "Button"{
             sender.setTitle("\(a)", for: .normal)
         }
+    
+    
+   
+}
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if (segue.destination is transferFunction){
+            let vc = segue.destination as? transferFunction
+            vc?.volume = volume
+        }
     }
+    var username:String = ""
+    
+    @IBOutlet weak var usernameLabel:UILabel?
+    
 }
